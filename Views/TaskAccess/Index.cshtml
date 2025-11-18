@@ -1,7 +1,9 @@
-﻿@model TaskAccessViewModel
+﻿@using System.Security.Claims
+@model TaskAccessViewModel
 
 @{
     ViewData["Title"] = $"Manage Access - {Model.TaskName}";
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 }
 
 <div class="container">
@@ -47,18 +49,23 @@
                 <div class="list-group">
                     @foreach (var user in Model.CurrentAccessUsers)
                     {
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>@user.DisplayName</span>
-                            <form asp-action="RemoveAccess" method="post" style="display: inline;">
-                                <input type="hidden" name="taskId" value="@Model.TaskId" />
-                                <input type="hidden" name="userId" value="@user.UserId" />
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to remove access for @user.DisplayName?')">
-                                    Remove
-                                </button>
-                            </form>
-                        </div>
+                        @if (user.UserId != currentUserId)
+                        {
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <span>@user.DisplayName</span>
+                                <form asp-action="RemoveAccess" method="post" style="display: inline;">
+                                    <input type="hidden" name="taskId" value="@Model.TaskId" />
+                                    <input type="hidden" name="userId" value="@user.UserId" />
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to remove access for @user.DisplayName?')">
+                                        Remove
+                                    </button>
+
+                                </form>
+                            </div>
+                        }
                     }
                 </div>
             }
