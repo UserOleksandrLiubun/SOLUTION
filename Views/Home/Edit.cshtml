@@ -40,6 +40,12 @@
                     </div>
                 </div>
                 <div class="form-group mb-3">
+                    <label asp-for="Description"></label>
+                    <textarea asp-for="Description" class="form-control" rows="5"
+                              placeholder="Enter task details..."></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group mb-3">
                     <button type="submit" class="w-100 btn btn-lg btn-primary">Edit</button>
                 </div>
             </form>
