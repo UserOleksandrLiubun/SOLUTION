@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims
 @model TaskAccessViewModel
+@inject UserManager<ApplicationUser> UserManager
 
 @{
     ViewData["Title"] = $"Manage Access - {Model.TaskName}";
@@ -25,7 +26,8 @@
                             <option value="">-- Select User --</option>
                             @foreach (var contact in Model.AvailableContacts)
                             {
-                                <option value="@contact.UserId">@contact.DisplayName</option>
+                                var user = UserManager.FindByIdAsync(contact.UserId).Result;
+                                <option value="@contact.UserId">@user.FirstName @user.LastName / @user.UserName</option>
                             }
                         </select>
                     </div>
