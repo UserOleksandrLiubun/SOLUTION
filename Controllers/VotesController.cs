@@ -19,7 +19,7 @@ public class CreateVoteViewModel
 
     [Display(Name = "Allowed User IDs (comma-separated)")]
     public string UsersIDs { get; set; }
-
+    public List<string> Alternatives { get; set; } = new();
     public List<VoteCriteriaViewModel> Criteria { get; set; } = new();
     public List<Contact> Contacts { get; set; } = new();
 }
