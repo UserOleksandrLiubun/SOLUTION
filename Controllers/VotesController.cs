@@ -187,6 +187,10 @@ public class VotesController : Controller
             .Where(s => s.DBVoteId == id)
             .ToList();
 
+        var alternative = _context.DBVoteAlternative
+            .Where(s => s.DBVoteId == id)
+            .ToList();
+
         var model = new VoteEvaluationViewModel
         {
             VoteId = id,

@@ -74,6 +74,8 @@ public class DBVoteItem
 
     [Required]
     public int DBVoteId { get; set; }
+    
+    public int DBVoteAlternativeId { get; set; }
 
     [Required]
     public int DBVoteItemSettingsId { get; set; }
