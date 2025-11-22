@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 public class CreateVoteViewModel
@@ -85,6 +86,7 @@ public class VotesController : Controller
     public async Task<IActionResult> Create()
     {
         var user = await _userManager.GetUserAsync(User);
+        await _context.Contacts.Where(item => item.UserId == user.Id || item.ContactUserId == user.Id).ToListAsync();
         var model = new CreateVoteViewModel
         {
             Criteria = new List<VoteCriteriaViewModel>
