@@ -1,6 +1,10 @@
 @model UserSearchViewModel
+@inject UserManager<ApplicationUser> UserManager
+@inject ApplicationDbContext _context
 @{
     ViewData["Title"] = "Searhc Contacts";
+    var currentUser = await UserManager.GetUserAsync(User);
+    var currentUserId = currentUser?.Id;
 }
 
 <h2>@ViewData["Title"]</h2>
@@ -35,17 +39,34 @@
         <tbody>
             @foreach (var user in Model.Users)
             {
+                var existingRequest = _context.Contacts
+                .FirstOrDefault(c =>
+                c.UserId == currentUserId && c.ContactUserId == user.Id);
                 <tr>
                     <td>@user.FirstName</td>
                     <td>@user.LastName</td>
                     <td>@user.UserName</td>
                     <td>
-                        <form method="post" asp-action="Add" asp-controller="Contacts">
-                            <input type="hidden" name="userName" value="@user.UserName" />
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-user-plus"></i> Send Request
-                            </button>
-                        </form>
+                        @if (@user.Id != currentUserId)
+                        {
+                            @if (existingRequest == null)
+                            {
+                                <form method="post" asp-action="Add" asp-controller="Contacts">
+                                    <input type="hidden" name="userName" value="@user.UserName" />
+                                    <button type="submit" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user-plus"></i> Send Request
+                                    </button>
+                                </form>
+                            }
+                            else if (existingRequest.IsAccepted)
+                            {
+                                <span class="text-success">Already Contacts</span>
+                            }
+                            else if (!existingRequest.IsAccepted)
+                            {
+                                <span class="text-info">Request Sent</span>
+                            }
+                        }
                     </td>
                 </tr>
             }
