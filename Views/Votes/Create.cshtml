@@ -123,49 +123,6 @@
 
 @section Scripts {
     <script>
-        document.getElementById('add-criteria').addEventListener('click', function() {
-            const container = document.getElementById('criteria-container');
-            const index = container.children.length;
-
-            const newCriteria = `
-                <div class="criteria-item border p-3 mb-3">
-                    <h5>Criterion ${index + 1}</h5>
-                    <div class="form-group">
-                        <label class="control-label">Title</label>
-                        <input name="Criteria[${index}].Title" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Description</label>
-                        <textarea name="Criteria[${index}].Description" class="form-control"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Importance</label>
-                                <input name="Criteria[${index}].Importance" class="form-control" value="100" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Min Value</label>
-                                <input name="Criteria[${index}].MinValue" class="form-control" value="0" />
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="control-label">Max Value</label>
-                                <input name="Criteria[${index}].MaxValue" class="form-control" value="10" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-
-            container.insertAdjacentHTML('beforeend', newCriteria);
-        });
-    </script>
-
-    <script>
         // Add Alternative functionality
         document.getElementById('add-alternative').addEventListener('click', function() {
             const container = document.getElementById('alternatives-container');
@@ -184,7 +141,6 @@
             container.insertAdjacentHTML('beforeend', newAlternative);
         });
 
-        // Add Criteria functionality
         document.getElementById('add-criteria').addEventListener('click', function() {
             const container = document.getElementById('criteria-container');
             const index = container.children.length;
