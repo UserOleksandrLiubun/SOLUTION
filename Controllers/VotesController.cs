@@ -82,23 +82,28 @@ public class VotesController : Controller
             .ToList();
         return View(votes);
     }
-
-    public async Task<IActionResult> Create()
+    public async Task<List<ApplicationUser>> GetContacts()
     {
         var user = await _userManager.GetUserAsync(User);
         var contacts = await _context.Contacts.Where(item => item.UserId == user.Id || item.ContactUserId == user.Id).ToListAsync();
         List<ApplicationUser> users = new();
-        foreach(var contact in contacts) 
+        foreach (var contact in contacts)
         {
-            if (contact.UserId == contact.UserId) 
+            if (contact.UserId == contact.UserId)
             {
-                users.Add(await _userManager.FindByEmailAsync(contact.UserId));
+                users.Add(await _userManager.FindByIdAsync(contact.UserId));
             }
             else if (contact.ContactUserId == contact.UserId)
             {
-                users.Add(await _userManager.FindByEmailAsync(contact.ContactUserId));
+                users.Add(await _userManager.FindByIdAsync(contact.ContactUserId));
             }
         }
+        return users;
+    }
+
+    public async Task<IActionResult> Create()
+    {
+        var user = await _userManager.GetUserAsync(User);
         var model = new CreateVoteViewModel
         {
             
@@ -107,7 +112,7 @@ public class VotesController : Controller
             {
                 new VoteCriteriaViewModel()
             },
-            Contacts = users
+            Contacts = await GetContacts()
         };
         return View(model);
     }
@@ -149,7 +154,7 @@ public class VotesController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
+        model.Contacts = await GetContacts();
         return View(model);
     }
 
