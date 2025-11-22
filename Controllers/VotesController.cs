@@ -53,6 +53,7 @@ public class VoteEvaluationViewModel
 public class EvaluationCriteriaViewModel
 {
     public int SettingsId { get; set; }
+    public int DBVoteAlternativeId { get; set; }
     public string Title { get; set; }
     public string Description { get; set; }
 
