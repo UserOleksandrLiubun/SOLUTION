@@ -45,6 +45,25 @@
         <span asp-validation-for="UsersIDs" class="text-danger"></span>
     </div>
 
+    <!-- Alternatives Section -->
+    <h4>Alternatives</h4>
+    <div id="alternatives-container">
+        @for (int i = 0; i < Model.Alternatives.Count; i++)
+        {
+            <div class="alternative-item border p-3 mb-3">
+                <h5>Alternative @(i + 1)</h5>
+                <div class="form-group">
+                    <label class="control-label">Alternative Name</label>
+                    <input asp-for="Alternatives[i]" class="form-control" />
+                    <span asp-validation-for="Alternatives[i]" class="text-danger"></span>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="form-group">
+        <button type="button" id="add-alternative" class="btn btn-secondary">Add Alternative</button>
+    </div>
+
     <h4>Evaluation Criteria</h4>
     <div id="criteria-container">
         @for (int i = 0; i < Model.Criteria.Count; i++)
@@ -98,6 +117,68 @@
 
 @section Scripts {
     <script>
+        document.getElementById('add-criteria').addEventListener('click', function() {
+            const container = document.getElementById('criteria-container');
+            const index = container.children.length;
+
+            const newCriteria = `
+                <div class="criteria-item border p-3 mb-3">
+                    <h5>Criterion ${index + 1}</h5>
+                    <div class="form-group">
+                        <label class="control-label">Title</label>
+                        <input name="Criteria[${index}].Title" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Description</label>
+                        <textarea name="Criteria[${index}].Description" class="form-control"></textarea>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Max Importance</label>
+                                <input name="Criteria[${index}].MaxImportance" class="form-control" value="100" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Min Value</label>
+                                <input name="Criteria[${index}].MinValue" class="form-control" value="0" />
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="control-label">Max Value</label>
+                                <input name="Criteria[${index}].MaxValue" class="form-control" value="10" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newCriteria);
+        });
+    </script>
+
+    <script>
+        // Add Alternative functionality
+        document.getElementById('add-alternative').addEventListener('click', function() {
+            const container = document.getElementById('alternatives-container');
+            const index = container.children.length;
+
+            const newAlternative = `
+                <div class="alternative-item border p-3 mb-3">
+                    <h5>Alternative ${index + 1}</h5>
+                    <div class="form-group">
+                        <label class="control-label">Alternative Name</label>
+                        <input name="Alternatives[${index}]" class="form-control" />
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', newAlternative);
+        });
+
+        // Add Criteria functionality
         document.getElementById('add-criteria').addEventListener('click', function() {
             const container = document.getElementById('criteria-container');
             const index = container.children.length;
