@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 public class CreateVoteViewModel
@@ -18,11 +20,12 @@ public class CreateVoteViewModel
     [Display(Name = "End Date")]
     public DateTime EndDateTime { get; set; } = DateTime.Now.AddDays(7);
 
-    [Display(Name = "Allowed User IDs (comma-separated)")]
-    public string UsersIDs { get; set; }
+    [Display(Name = "Allowed Users")]
+    public List<string> UsersIDs { get; set; }
     public List<string> Alternatives { get; set; } = new();
     public List<VoteCriteriaViewModel> Criteria { get; set; } = new();
-    public List<ApplicationUser> Contacts { get; set; } = new();
+    public List<
+        SelectListItem> Contacts { get; set; } = new();
 }
 
 public class VoteCriteriaViewModel
@@ -82,7 +85,7 @@ public class VotesController : Controller
             .ToList();
         return View(votes);
     }
-    public async Task<List<ApplicationUser>> GetContacts()
+    public async Task<List<SelectListItem>> GetContacts()
     {
         var user = await _userManager.GetUserAsync(User);
         var contacts = await _context.Contacts.Where(item => item.UserId == user.Id || item.ContactUserId == user.Id).ToListAsync();
@@ -98,7 +101,16 @@ public class VotesController : Controller
                 users.Add(await _userManager.FindByIdAsync(contact.ContactUserId));
             }
         }
-        return users;
+        List <SelectListItem> selects = new();
+        foreach (var contactUser in users)
+        {
+            selects.Add(new SelectListItem
+            {
+                Value = contactUser.Id,
+                Text = $"{contactUser.FirstName} {contactUser.LastName} ({contactUser.Email})"
+            });
+        }
+        return selects;
     }
 
     public async Task<IActionResult> Create()
@@ -106,7 +118,6 @@ public class VotesController : Controller
         var user = await _userManager.GetUserAsync(User);
         var model = new CreateVoteViewModel
         {
-            
             Alternatives = new(),
             Criteria = new List<VoteCriteriaViewModel>
             {
@@ -131,7 +142,7 @@ public class VotesController : Controller
                 StartDateTime = model.StartDateTime,
                 EndDateTime = model.EndDateTime,
                 UserId = userId,
-                UsersIDs = model.UsersIDs
+                UsersIDs = string.Join(",", model.UsersIDs)
             };
 
             _context.DBVotes.Add(vote);
