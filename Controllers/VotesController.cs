@@ -259,7 +259,6 @@ public class VotesController : Controller
                 return View(model);
             }
 
-            // Check if user already voted
             var existingVotes = _context.DBVoteItems
                 .Where(v => v.DBVoteId == model.VoteId && v.UserId == userId);
             _context.DBVoteItems.RemoveRange(existingVotes);
