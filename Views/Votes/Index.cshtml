@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<DBVote>
 @{
     ViewData["Title"] = "My Votes";
+    var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
 }
 
 <h2>My Votes</h2>
@@ -32,7 +33,10 @@
                         <input type="hidden" name="id" value="@item.Id" />
                         <a asp-action="Evaluate" asp-route-id="@item.Id" class="btn btn-success">Evaluate</a>
                         <a asp-action="Results" asp-route-id="@item.Id" class="btn btn-info">Results</a>
-                        <button type="submit" class="btn btn-danger">Remove</button>
+                        @if (item.UserId == currentUserId)
+                        {
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        }
                     </form>
                 </td>
             </tr>
