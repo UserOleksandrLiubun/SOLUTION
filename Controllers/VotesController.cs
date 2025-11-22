@@ -62,7 +62,7 @@ public class EvaluationCriteriaViewModel
 
     public double MinValue { get; set; }
     public double MaxValue { get; set; }
-
+    public double StepValue { get; set; }
     [Range(0, double.MaxValue)]
     public double Value { get; set; }
 }
@@ -203,6 +203,8 @@ public class VotesController : Controller
             Criteria = criteria.Select(c => new EvaluationCriteriaViewModel
             {
                 SettingsId = c.Id,
+                ImportanceValue = c.ImportanceValue,
+                StepValue = c.StepValue,
                 Title = c.Title,
                 Description = c.Description,
                 MinValue = c.MinValue,
@@ -220,6 +222,8 @@ public class VotesController : Controller
                     model.Criteria.Add(new EvaluationCriteriaViewModel
                     {
                         DBVoteAlternativeId = alternative[j].Id,
+                        ImportanceValue = criteria[i].ImportanceValue,
+                        StepValue = criteria[i].StepValue,
                         SettingsId = criteria[i].Id,
                         Title = criteria[i].Title,
                         Description = criteria[i].Description,

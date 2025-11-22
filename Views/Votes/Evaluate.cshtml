@@ -22,24 +22,16 @@
             <input type="hidden" asp-for="Criteria[i].DBVoteAlternativeId" />
             <input type="hidden" asp-for="Criteria[i].Title" />
             <input type="hidden" asp-for="Criteria[i].Description" />
+            <input type="hidden" asp-for="Criteria[i].ImportanceValue" />
             <h4>@Model.Criteria[i].Title</h4>
             <p>@Model.Criteria[i].Description</p>
 
             <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="Criteria[i].ImportanceValue" class="control-label"></label>
-                        <input asp-for="Criteria[i].ImportanceValue" class="form-control"
-                               min="0" max="100" />
-                        <small class="form-text text-muted">Importance weight (0-100)</small>
-                        <span asp-validation-for="Criteria[i].ImportanceValue" class="text-danger"></span>
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label asp-for="Criteria[i].Value" class="control-label"></label>
-                        <input asp-for="Criteria[i].Value" class="form-control"
-                               min="@Model.Criteria[i].MinValue" max="@Model.Criteria[i].MaxValue" />
+                        <input type="number" asp-for="Criteria[i].Value" class="form-control"
+                               min="@Model.Criteria[i].MinValue" max="@Model.Criteria[i].MaxValue" step="@Model.Criteria[i].StepValue" />
                         <small class="form-text text-muted">
                             Value (@Model.Criteria[i].MinValue - @Model.Criteria[i].MaxValue)
                         </small>

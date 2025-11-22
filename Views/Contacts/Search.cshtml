@@ -7,7 +7,15 @@
     var currentUserId = currentUser?.Id;
 }
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
 
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
 
 <h2>@ViewData["Title"]</h2>
 <form method="get" asp-action="Index" asp-controller="Search">
