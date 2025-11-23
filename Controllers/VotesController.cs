@@ -111,7 +111,7 @@ public class VotesController : Controller
             selects.Add(new SelectListItem
             {
                 Value = contactUser.Id,
-                Text = $"{contactUser.FirstName} {contactUser.LastName} ({contactUser.Email})"
+                Text = $"{contactUser.FirstName} {contactUser.LastName} ({contactUser.UserName})"
             });
         }
         return selects;
@@ -309,15 +309,19 @@ public class VotesController : Controller
 
     public IActionResult Results(int id)
     {
-        var vote = _context.DBVotes.Find(id);
+        var vote = _context.DBVotes.FirstOrDefault((item) => item.Id == id);
         if (vote == null) return NotFound();
 
         var criteria = _context.DBVoteItemSettings
-            .Where(s => s.DBVoteId == id)
+            .Where(s => s.DBVoteId == vote.Id)
+            .ToList();
+
+        var alternatives = _context.DBVoteAlternative
+            .Where(v => v.DBVoteId == vote.Id)
             .ToList();
 
         var votes = _context.DBVoteItems
-            .Where(v => v.DBVoteId == id)
+            .Where(v => v.DBVoteId == vote.Id)
             .ToList();
 
         var results = criteria.Select(c => new
