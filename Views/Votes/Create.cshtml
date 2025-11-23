@@ -4,6 +4,21 @@
     ViewData["Title"] = "Create New Vote";
 }
 
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+@if (ViewBag.WeightError != null)
+{
+    <div class="alert alert-danger">@ViewBag.WeightError</div>
+}
+
 <h2>Create New Multi-criteria Evaluation</h2>
 
 <form asp-action="Create">

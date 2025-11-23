@@ -133,6 +133,14 @@ public class VotesController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(CreateVoteViewModel model)
     {
+        model.Contacts = await GetContacts();
+        double totalImportance = model.Criteria.Sum(c => c.Importance);
+        ViewBag.WeightError = null;
+        if (totalImportance != 100 && totalImportance != model.Criteria.Count() * 100) 
+        {
+            ViewBag.WeightError = "Assign weights so that the sum of all criteria equals 100% or the importance of each criterion equals 100.";
+            return View(model); 
+        }
         if (ModelState.IsValid)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -178,7 +186,6 @@ public class VotesController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        model.Contacts = await GetContacts();
         return View(model);
     }
 
