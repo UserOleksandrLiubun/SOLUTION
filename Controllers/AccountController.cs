@@ -238,7 +238,7 @@ public class AccountController : Controller
     public async Task<IActionResult> Logout()
     {
         await _signInManager.SignOutAsync();
-        _logger.LogInformation("User logged out.");
+        _logger.LogInformation("Користувач вийшов із системи.");
         return RedirectToAction(nameof(HomeController.Index), "Home");
     }
 

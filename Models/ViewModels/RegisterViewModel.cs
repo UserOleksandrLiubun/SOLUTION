@@ -4,30 +4,30 @@ public class RegisterViewModel
 {
     [Required]
     [StringLength(50)]
-    [Display(Name = "User Name")]
+    [Display(Name = "Ім'я користувача")]
     public string UserName { get; set; }
 
     [Required]
     [EmailAddress]
-    [Display(Name = "Email")]
+    [Display(Name = "Електронна пошта")]
     public string Email { get; set; }
 
     [Required]
-    [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+    [StringLength(100, ErrorMessage = "{0} повинен містити щонайменше {2} символів і максимально {1} символів.", MinimumLength = 6)]
     [DataType(DataType.Password)]
-    [Display(Name = "Password")]
+    [Display(Name = "Пароль")]
     public string Password { get; set; }
 
     [DataType(DataType.Password)]
-    [Display(Name = "Confirm password")]
-    [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+    [Display(Name = "Підтвердьте пароль")]
+    [Compare("Password", ErrorMessage = "Пароль та підтвердження пароля не збігаються.")]
     public string ConfirmPassword { get; set; }
 
     [Required]
-    [Display(Name = "First Name")]
+    [Display(Name = "Ім'я")]
     public string FirstName { get; set; }
 
     [Required]
-    [Display(Name = "Last Name")]
+    [Display(Name = "Прізвище")]
     public string LastName { get; set; }
 }
