@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Results: " + ViewBag.VoteTitle;
     var totalVotes = Model.DBVoteItem.Count();
+    var uniqueUsers = Model.DBVoteItem.Select(v => v.UserId).Distinct().Count();
 }
 
 <h2>Results: @Model.Title</h2>
@@ -16,7 +17,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <strong>Total Votes:</strong> @totalVotes
+                        <strong>Total Votes:</strong> @uniqueUsers
                     </div>
                     <div class="col-md-3">
                         <strong>Start Date:</strong> @Model.DBVote.StartDateTime.ToString("MMM dd, yyyy")
@@ -61,7 +62,6 @@
                                 {
                                     var alternativeVotes = Model.DBVoteItem.Where(v => v.DBVoteAlternativeId == alternative.Id).ToList();
                                     var averageScore = alternativeVotes.Any() ? alternativeVotes.Average(v => v.Value) : 0;
-
                                     <tr>
                                         <td>@alternative.Title</td>
                                         <td>
@@ -75,7 +75,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>@alternativeVotes.Count</td>
+                                        <td>@alternativeVotes.Select(v => v.UserId).Distinct().Count()</td>
                                     </tr>
                                 }
                             </tbody>
@@ -197,7 +197,6 @@
                 </div>
                 <div class="card-body">
                     @{
-                        var uniqueUsers = Model.DBVoteItem.Select(v => v.UserId).Distinct().Count();
                         var votesPerUser = Model.DBVoteItem.GroupBy(v => v.UserId)
                         .Select(g => new { UserId = g.Key, VoteCount = g.Count() })
                         .OrderByDescending(x => x.VoteCount)
@@ -209,15 +208,17 @@
                         </div>
                     </div>
 
-                    @if (votesPerUser.Any())
-                    {
+
                         <div class="mt-3">
+                        @if (votesPerUser.Any())
+                        {
                             <strong>Votes per Participant:</strong>
                             <div class="table-responsive mt-2">
                                 <table class="table table-sm">
                                     <thead>
                                         <tr>
                                             <th>Participant</th>
+                                            <th>Username</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -225,14 +226,38 @@
                                         {
                                             var u = UserManager.FindByIdAsync(user.UserId).Result;
                                             <tr>
-                                                <td>@u.FirstName @u.LastName (@u.UserName)</td>
+                                                <td>@u.FirstName @u.LastName</td>
+                                                <td>@u.UserName</td>
                                             </tr>
                                         }
                                     </tbody>
                                 </table>
                             </div>
+                        }
+                            <strong>All Participants:</strong>
+                            <div class="table-responsive mt-2">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Username</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var id in Model.DBVote.UserId.Split(","))
+                                        {
+                                            var u = UserManager.FindByIdAsync(id).Result;
+                                            <tr>
+                                                <td>@u.FirstName @u.LastName</td>
+                                                <td>@u.UserName</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
                         </div>
-                    }
+
                 </div>
             </div>
         }
