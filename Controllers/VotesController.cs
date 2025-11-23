@@ -11,17 +11,20 @@ public class CreateVoteViewModel
 {
     [Required]
     [StringLength(200)]
+    [Display(Name = "Назва")]
     public string Title { get; set; }
+    [Display(Name = "Приватне")]
     public bool IsPrivate { get; set; }
+    [Display(Name = "Опис")]
     public string Description { get; set; }
 
-    [Display(Name = "Start Date")]
+    [Display(Name = "Дата початку")]
     public DateTime StartDateTime { get; set; } = DateTime.Now;
 
-    [Display(Name = "End Date")]
+    [Display(Name = "Дата завершення")]
     public DateTime EndDateTime { get; set; } = DateTime.Now.AddDays(7);
 
-    [Display(Name = "Allowed Users")]
+    [Display(Name = "Користувачі")]
     public List<string> UsersIDs { get; set; }
     public List<string> Alternatives { get; set; } = new();
     public List<VoteCriteriaViewModel> Criteria { get; set; } = new();
@@ -31,23 +34,30 @@ public class CreateVoteViewModel
 public class VoteCriteriaViewModel
 {
     [Required]
+    [Display(Name = "Назва")]
     public string Title { get; set; }
-
+    [Display(Name = "Опис")]
     public string Description { get; set; }
 
     [Range(1, 100)]
+    [Display(Name = "Важливість")]
     public double Importance { get; set; } = 100;
-
+    [Display(Name = "Мінімальне значення")]
     public double MinValue { get; set; } = 0;
+    [Display(Name = "Крок")]
     public double StepValue { get; set; } = 0;
+    [Display(Name = "Максимальне значення")]
     public double MaxValue { get; set; } = 10;
 }
 
 public class VoteEvaluationViewModel
 {
     public int VoteId { get; set; }
+    [Display(Name = "Назва")]
     public string VoteTitle { get; set; }
+    [Display(Name = "Опис")]
     public string Description { get; set; }
+    [Display(Name = "Приватне")]
     public bool IsPrivate { get; set; }
     public List<DBVoteAlternative> Alternatives { get; set; } = new();
     public List<EvaluationCriteriaViewModel> Criteria { get; set; } = new();
@@ -150,7 +160,7 @@ public class VotesController : Controller
         ViewBag.WeightError = null;
         if (totalImportance != 100 && totalImportance != model.Criteria.Count() * 100) 
         {
-            ViewBag.WeightError = "Assign weights so that the sum of all criteria equals 100% or the importance of each criterion equals 100.";
+            ViewBag.WeightError = "Призначте значення важливості критерію таким чином, щоб сума всіх критеріїв дорівнювала 100 або важливість кожного критерію дорівнювала 100.";
             return View(model); 
         }
         if (ModelState.IsValid)

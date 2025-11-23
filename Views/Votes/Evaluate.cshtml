@@ -1,10 +1,10 @@
 ﻿@model VoteEvaluationViewModel
 @{
-    ViewData["Title"] = "Evaluate: " + Model.VoteTitle;
+    ViewData["Title"] = "Оцінити: " + Model.VoteTitle;
     int alternativeId = -1;
 }
 
-<h2>Evaluate: @Model.VoteTitle</h2>
+<h2>@ViewData["Title"]</h2>
 @if (!string.IsNullOrEmpty(Model.Description))
 {
     <div class="vote-description mb-4">
@@ -47,7 +47,7 @@
         </div>
     }
     <div class="form-group">
-        <input type="submit" value="Submit Evaluation" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Оцінити" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
     </div>
 </form>

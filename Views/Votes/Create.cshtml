@@ -59,14 +59,14 @@
 
 
     <div class="form-group">
-        <label asp-for="UsersIDs">Select Participants</label>
+        <label asp-for="UsersIDs">Вибрати учасників</label>
         <select asp-for="UsersIDs" class="form-control" asp-items="Model.Contacts" multiple size="5">
 
         </select>
         <span asp-validation-for="UsersIDs" class="text-danger"></span>
     </div>
 
-    <h4>Alternatives</h4>
+    <h4>Альтернативи</h4>
     <div id="alternatives-container">
         @for (int i = 0; i < Model.Alternatives.Count; i++)
         {
@@ -81,15 +81,15 @@
         }
     </div>
     <div class="form-group">
-        <button type="button" id="add-alternative" class="btn btn-secondary">Add Alternative</button>
+        <button type="button" id="add-alternative" class="btn btn-secondary">Додати альтернативу</button>
     </div>
 
-    <h4>Evaluation Criteria</h4>
+    <h4>Критерії оцінювання</h4>
     <div id="criteria-container">
         @for (int i = 0; i < Model.Criteria.Count; i++)
         {
             <div class="criteria-item border p-3 mb-3">
-                <h5>Criterion @(i + 1)</h5>
+                <h5>Критерій @(i + 1)</h5>
                 <div class="form-group">
                     <label asp-for="Criteria[i].Title" class="control-label"></label>
                     <input asp-for="Criteria[i].Title" class="form-control" />
@@ -137,8 +137,8 @@
     </div>
 
     <div class="form-group">
-        <button type="button" id="add-criteria" class="btn btn-secondary">Add Criterion</button>
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <button type="button" id="add-criteria" class="btn btn-secondary">Додати критерій</button>
+        <input type="submit" value="Створити" class="btn btn-primary" />
     </div>
 </form>
 
