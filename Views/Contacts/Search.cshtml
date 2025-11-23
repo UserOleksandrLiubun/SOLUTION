@@ -18,16 +18,16 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-<form method="get" asp-action="Index" asp-controller="Search">
+<form method="get" asp-action="Search" asp-controller="Contacts">
     <div class="form-group">
         <div class="input-group">
             <input type="text"
                    class="form-control"
-                   placeholder="Search by first name, last name, or username..."
+                   placeholder="Шукати за ім'ям, прізвищем або ім'ям користувача..."
                    asp-for="SearchTerm" />
             <div class="input-group-append">
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i> Search
+                    <i class="fas fa-search"></i> Пошук
                 </button>
             </div>
         </div>
@@ -40,9 +40,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>Ім'я</th>
+                <th>Прізвище</th>
+                <th>Ім'я користувача</th>
                 <th></th>
             </tr>
         </thead>
