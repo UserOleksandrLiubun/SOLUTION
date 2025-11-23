@@ -13,6 +13,7 @@
 }
 <form asp-action="Evaluate">
     <input type="hidden" asp-for="VoteId" />
+    <input type="hidden" asp-for="IsPrivate" />
     <input type="hidden" asp-for="VoteTitle" />
     @for (int i = 0; i < Model.Criteria.Count; i++)
     {

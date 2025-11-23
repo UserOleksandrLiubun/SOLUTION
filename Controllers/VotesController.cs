@@ -11,7 +11,7 @@ public class CreateVoteViewModel
     [Required]
     [StringLength(200)]
     public string Title { get; set; }
-
+    public bool IsPrivate { get; set; }
     public string Description { get; set; }
 
     [Display(Name = "Start Date")]
@@ -47,6 +47,7 @@ public class VoteEvaluationViewModel
     public int VoteId { get; set; }
     public string VoteTitle { get; set; }
     public string Description { get; set; }
+    public bool IsPrivate { get; set; }
     public List<DBVoteAlternative> Alternatives { get; set; } = new();
     public List<EvaluationCriteriaViewModel> Criteria { get; set; } = new();
 }
@@ -149,6 +150,7 @@ public class VotesController : Controller
             var vote = new DBVote
             {
                 Title = model.Title,
+                IsPrivate = model.IsPrivate,
                 Description = model.Description,
                 StartDateTime = model.StartDateTime,
                 EndDateTime = model.EndDateTime,
@@ -206,6 +208,7 @@ public class VotesController : Controller
         var model = new VoteEvaluationViewModel
         {
             VoteId = id,
+            IsPrivate = vote.IsPrivate,
             Description = vote.Description,
             VoteTitle = vote.Title,
             Alternatives = alternative,
