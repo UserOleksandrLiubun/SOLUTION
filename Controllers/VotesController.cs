@@ -72,6 +72,7 @@ public class EvaluationCriteriaViewModel
 public class VoteResultViewModel
 {
     public string Title { get; set; }
+    public bool IsPrivate { get; set; }
     public DBVote DBVote { get; set; }
     public List<DBVoteItemSettings> DBVoteItemSettings { get; set; }
     public List<DBVoteItem> DBVoteItem { get; set; }
@@ -336,6 +337,7 @@ public class VotesController : Controller
         var result = new VoteResultViewModel()
         {
             Title = vote.Title,
+            IsPrivate = vote.IsPrivate,
             DBVote = vote,
             DBVoteItemSettings = dBVoteItemSettings,
             DBVoteItem = votes,

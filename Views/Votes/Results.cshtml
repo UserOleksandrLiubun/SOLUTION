@@ -1,4 +1,5 @@
 ﻿@model VoteResultViewModel
+@inject UserManager<DBApplicationUser> UserManager
 @{
     ViewData["Title"] = "Results: " + ViewBag.VoteTitle;
     var totalVotes = Model.DBVoteItem.Count();
@@ -6,172 +7,153 @@
 
 <h2>Results: @Model.Title</h2>
 
-@if (totalVotes == 0)
-{
-    <div class="alert alert-info">
-        <h4>No votes submitted yet</h4>
-        <p>There are no evaluations submitted for this vote. Please check back later.</p>
-    </div>
-}
-else
-{
-    <div class="row">
-        <div class="col-md-12">
+<div class="row">
+    <div class="col-md-12">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Vote Summary</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <strong>Total Votes:</strong> @totalVotes
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Start Date:</strong> @Model.DBVote.StartDateTime.ToString("MMM dd, yyyy")
+                    </div>
+                    <div class="col-md-3">
+                        <strong>End Date:</strong> @Model.DBVote.EndDateTime.ToString("MMM dd, yyyy")
+                    </div>
+                    <div class="col-md-3">
+                        <strong>Status:</strong>
+                        <span class="badge @(DateTime.Now < Model.DBVote.EndDateTime ? "bg-success" : "bg-secondary")">
+                            @(DateTime.Now < Model.DBVote.EndDateTime ? "Active" : "Completed")
+                        </span>
+                    </div>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.DBVote.Description))
+                {
+                    <div class="mt-2">
+                        <strong>Description:</strong> @Model.DBVote.Description
+                    </div>
+                }
+            </div>
+        </div>
+
+        @if (Model.DBVoteAlternative.Any())
+        {
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>Vote Summary</h4>
+                    <h4>Alternatives Overview</h4>
                 </div>
                 <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <strong>Total Votes:</strong> @totalVotes
-                        </div>
-                        <div class="col-md-3">
-                            <strong>Start Date:</strong> @Model.DBVote.StartDateTime.ToString("MMM dd, yyyy")
-                        </div>
-                        <div class="col-md-3">
-                            <strong>End Date:</strong> @Model.DBVote.EndDateTime.ToString("MMM dd, yyyy")
-                        </div>
-                        <div class="col-md-3">
-                            <strong>Status:</strong>
-                            <span class="badge @(DateTime.Now < Model.DBVote.EndDateTime ? "badge-success" : "badge-secondary")">
-                                @(DateTime.Now < Model.DBVote.EndDateTime ? "Active" : "Completed")
-                            </span>
-                        </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Alternative</th>
+                                    <th>Average Score</th>
+                                    <th>Vote Count</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var alternative in Model.DBVoteAlternative)
+                                {
+                                    var alternativeVotes = Model.DBVoteItem.Where(v => v.DBVoteAlternativeId == alternative.Id).ToList();
+                                    var averageScore = alternativeVotes.Any() ? alternativeVotes.Average(v => v.Value) : 0;
+
+                                    <tr>
+                                        <td>@alternative.Title</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar"
+                                                     style="width: @(averageScore * 10)%"
+                                                     aria-valuenow="@averageScore"
+                                                     aria-valuemin="0"
+                                                     aria-valuemax="10">
+                                                    @averageScore.ToString("F2")
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>@alternativeVotes.Count</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
                     </div>
-                    @if (!string.IsNullOrEmpty(Model.DBVote.Description))
-                    {
-                        <div class="mt-2">
-                            <strong>Description:</strong> @Model.DBVote.Description
-                        </div>
-                    }
                 </div>
             </div>
+        }
 
-            @if (Model.DBVoteAlternative.Any())
-            {
-                <div class="card mb-4">
-                    <div class="card-header">
-                        <h4>Alternatives Overview</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Alternative</th>
-                                        <th>Average Score</th>
-                                        <th>Vote Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (var alternative in Model.DBVoteAlternative)
-                                    {
-                                        var alternativeVotes = Model.DBVoteItem.Where(v => v.DBVoteAlternativeId == alternative.Id).ToList();
-                                        var averageScore = alternativeVotes.Any() ? alternativeVotes.Average(v => v.Value) : 0;
+        <!-- Detailed Results by Vote Item -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Detailed Results by Criteria</h4>
+            </div>
+            <div class="card-body">
+                @foreach (var itemSetting in Model.DBVoteItemSettings)
+                {
+                    var itemVotes = Model.DBVoteItem.Where(v => v.DBVoteItemSettingsId == itemSetting.Id).ToList();
+                    var averageValue = itemVotes.Any() ? itemVotes.Average(v => v.Value) : 0;
+                    var minValue = itemVotes.Any() ? itemVotes.Min(v => v.Value) : 0;
+                    var maxValue = itemVotes.Any() ? itemVotes.Max(v => v.Value) : 0;
 
-                                        <tr>
-                                            <td>@alternative.Title</td>
-                                            <td>
-                                                <div class="progress">
-                                                    <div class="progress-bar" role="progressbar"
-                                                         style="width: @(averageScore * 10)%"
-                                                         aria-valuenow="@averageScore"
-                                                         aria-valuemin="0"
-                                                         aria-valuemax="10">
-                                                        @averageScore.ToString("F2")
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>@alternativeVotes.Count</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            }
+                    <div class="vote-item mb-4 p-3 border rounded">
+                        <h5>@itemSetting.Title</h5>
+                        @if (!string.IsNullOrEmpty(itemSetting.Description))
+                        {
+                            <p class="text-muted">@itemSetting.Description</p>
+                        }
 
-            <!-- Detailed Results by Vote Item -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Detailed Results by Criteria</h4>
-                </div>
-                <div class="card-body">
-                    @foreach (var itemSetting in Model.DBVoteItemSettings)
-                    {
-                        var itemVotes = Model.DBVoteItem.Where(v => v.DBVoteItemSettingsId == itemSetting.Id).ToList();
-                        var averageValue = itemVotes.Any() ? itemVotes.Average(v => v.Value) : 0;
-                        var averageImportance = itemVotes.Any() ? itemVotes.Average(v => v.ImportanceValue) : 0;
-                        var minValue = itemVotes.Any() ? itemVotes.Min(v => v.Value) : 0;
-                        var maxValue = itemVotes.Any() ? itemVotes.Max(v => v.Value) : 0;
-
-                        <div class="vote-item mb-4 p-3 border rounded">
-                            <h5>@itemSetting.Title</h5>
-                            @if (!string.IsNullOrEmpty(itemSetting.Description))
+                        <div class="row">
+                            <div class="col-md-6">
+                                <strong>Value Statistics:</strong>
+                                <ul class="list-unstyled">
+                                    <li>Average: <strong>@averageValue.ToString("F2")</strong></li>
+                                    <li>Range: @minValue.ToString("F2") - @maxValue.ToString("F2")</li>
+                                    <li>Votes: @itemVotes.Count</li>
+                                </ul>
+                            </div>
+                            @if (itemSetting.ImportanceValue != 100) 
                             {
-                                <p class="text-muted">@itemSetting.Description</p>
-                            }
-
-                            <div class="row">
                                 <div class="col-md-6">
-                                    <strong>Value Statistics:</strong>
-                                    <ul class="list-unstyled">
-                                        <li>Average: <strong>@averageValue.ToString("F2")</strong></li>
-                                        <li>Range: @minValue.ToString("F2") - @maxValue.ToString("F2")</li>
-                                        <li>Votes: @itemVotes.Count</li>
-                                    </ul>
+                                    <strong>Importance:</strong> @itemSetting.ImportanceValue
                                 </div>
-                                <div class="col-md-6">
-                                    <strong>Importance:</strong>
-                                    <div class="mt-2">
-                                        <span class="badge badge-info">Average: @averageImportance.ToString("F2")%</span>
-                                        <span class="badge badge-secondary">Default: @itemSetting.ImportanceValue%</span>
-                                    </div>
-                                    <div class="progress mt-2">
-                                        <div class="progress-bar bg-info" role="progressbar"
-                                             style="width: @averageImportance%"
-                                             aria-valuenow="@averageImportance"
-                                             aria-valuemin="0"
-                                             aria-valuemax="100">
-                                        </div>
-                                    </div>
+                            }
+                        </div>
+
+                        @if (Model.DBVoteAlternative.Any())
+                        {
+                            <div class="mt-3">
+                                <strong>Breakdown by Alternative:</strong>
+                                <div class="table-responsive mt-2">
+                                    <table class="table table-sm table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Alternative</th>
+                                                <th>Average Value</th>
+                                                <th>Votes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var alternative in Model.DBVoteAlternative)
+                                            {
+                                                var altVotes = itemVotes.Where(v => v.DBVoteAlternativeId == alternative.Id).ToList();
+                                                var altAverage = altVotes.Any() ? altVotes.Average(v => v.Value) : 0;
+
+                                                <tr>
+                                                    <td>@alternative.Title</td>
+                                                    <td>@altAverage.ToString("F2")</td>
+                                                    <td>@altVotes.Count</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-
-                            @if (Model.DBVoteAlternative.Any())
-                            {
-                                <div class="mt-3">
-                                    <strong>Breakdown by Alternative:</strong>
-                                    <div class="table-responsive mt-2">
-                                        <table class="table table-sm table-bordered">
-                                            <thead>
-                                                <tr>
-                                                    <th>Alternative</th>
-                                                    <th>Average Value</th>
-                                                    <th>Votes</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var alternative in Model.DBVoteAlternative)
-                                                {
-                                                    var altVotes = itemVotes.Where(v => v.DBVoteAlternativeId == alternative.Id).ToList();
-                                                    var altAverage = altVotes.Any() ? altVotes.Average(v => v.Value) : 0;
-
-                                                    <tr>
-                                                        <td>@alternative.Title</td>
-                                                        <td>@altAverage.ToString("F2")</td>
-                                                        <td>@altVotes.Count</td>
-                                                    </tr>
-                                                }
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            }
-
-                            <!-- Value Distribution Chart -->
+                        }
+                        @if (totalVotes != 0)
+                        {
                             <div class="mt-3">
                                 <strong>Value Distribution:</strong>
                                 <div class="distribution-chart mt-2">
@@ -200,12 +182,15 @@ else
                                     }
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
             </div>
+        </div>
 
-            <!-- User Participation Summary -->
+        <!-- User Participation Summary -->
+        @if (!Model.IsPrivate)
+        {
             <div class="card">
                 <div class="card-header">
                     <h4>Participation Summary</h4>
@@ -222,9 +207,6 @@ else
                         <div class="col-md-6">
                             <strong>Unique Participants:</strong> @uniqueUsers
                         </div>
-                        <div class="col-md-6">
-                            <strong>Average Votes per User:</strong> @((totalVotes / (double)uniqueUsers).ToString("F1"))
-                        </div>
                     </div>
 
                     @if (votesPerUser.Any())
@@ -236,15 +218,14 @@ else
                                     <thead>
                                         <tr>
                                             <th>Participant</th>
-                                            <th>Votes Submitted</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var user in votesPerUser)
                                         {
+                                            var u = UserManager.FindByIdAsync(user.UserId).Result;
                                             <tr>
-                                                <td>User @user.UserId.Substring(0, 8)...</td>
-                                                <td>@user.VoteCount</td>
+                                                <td>@u.FirstName @u.LastName (@u.UserName)</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -254,9 +235,9 @@ else
                     }
                 </div>
             </div>
-        </div>
+        }
     </div>
-}
+</div>
 
 <style>
     .vote-item {
