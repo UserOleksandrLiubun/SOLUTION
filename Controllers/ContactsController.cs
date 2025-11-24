@@ -104,7 +104,7 @@ public class ContactsController : Controller
         _context.Contacts.Add(contact);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Contact request sent successfully!";
+        TempData["Success"] = "Запит на контакт успішно надіслано!";
         return RedirectToAction(redirecntTo);
     }
 

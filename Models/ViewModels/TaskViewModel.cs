@@ -14,6 +14,7 @@ public class TaskViewModel
     public string Name { get; set; }
     [Display(Name = "Опис")]
     [StringLength(1000, ErrorMessage = "Опис не може перевищувати 1000 символів")]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [DataType(DataType.MultilineText)]
     public string Description { get; set; }
     [Display(Name = "Важливо")]
