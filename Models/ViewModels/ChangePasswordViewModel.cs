@@ -1,13 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CHOICE;
+using System.ComponentModel.DataAnnotations;
 
 public class ChangePasswordViewModel
 {
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [DataType(DataType.Password)]
     [Display(Name = "Поточний пароль")]
     public string OldPassword { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [StringLength(100, ErrorMessage = "{0} має містити щонайменше {2} та щонайбільше {1} символів.", MinimumLength = 6)]
     [DataType(DataType.Password)]
     [Display(Name = "Новий пароль")]

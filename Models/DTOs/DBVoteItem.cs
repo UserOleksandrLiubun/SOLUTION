@@ -7,12 +7,12 @@ namespace CHOICE.Models.DTOs
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = SharedResource.RequireMessage)]
         public int DBVoteId { get; set; }
 
         public int? DBVoteAlternativeId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = SharedResource.RequireMessage)]
         public int DBVoteItemSettingsId { get; set; }
 
         [Display(Name = "Importance")]

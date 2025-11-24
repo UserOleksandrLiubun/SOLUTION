@@ -1,4 +1,5 @@
-﻿using CHOICE.Models.DTOs;
+﻿using CHOICE;
+using CHOICE.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -9,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 public class CreateVoteViewModel
 {
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [StringLength(200)]
     [Display(Name = "Назва")]
     public string Title { get; set; }
@@ -33,7 +34,7 @@ public class CreateVoteViewModel
 
 public class VoteCriteriaViewModel
 {
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [Display(Name = "Назва")]
     public string Title { get; set; }
     [Display(Name = "Опис")]

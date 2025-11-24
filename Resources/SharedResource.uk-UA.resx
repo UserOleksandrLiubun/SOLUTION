@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <data name="RequiredAttribute_ValidationError" xml:space="preserve">
+    <value>Поле '{0}' є обов'язковим для заповнення.</value>
+  </data>
+  <data name="StringLengthAttribute_ValidationError" xml:space="preserve">
+    <value>Поле '{0}' повинно містити від {2} до {1} символів.</value>
+  </data>
+  <data name="EmailAddressAttribute_ValidationError" xml:space="preserve">
+    <value>Поле '{0}' має містити коректну email адресу.</value>
+  </data>
+</root>

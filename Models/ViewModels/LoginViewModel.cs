@@ -1,12 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CHOICE;
+using System.ComponentModel.DataAnnotations;
 
 public class LoginViewModel
 {
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [Display(Name = "Ім'я користувача")]
     public string UserName { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [DataType(DataType.Password)]
     [Display(Name = "Пароль")]
     public string Password { get; set; }

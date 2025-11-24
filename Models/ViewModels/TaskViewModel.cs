@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using CHOICE;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 public class TaskViewModel
@@ -8,7 +9,7 @@ public class TaskViewModel
     public string? EditorId { get; set; }
     [Display(Name = "Виконати до")]
     public DateTime? DueDate { get; set; }
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [Display(Name = "Назва")]
     public string Name { get; set; }
     [Display(Name = "Опис")]

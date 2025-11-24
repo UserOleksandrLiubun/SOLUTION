@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using CHOICE;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 public class EnableAuthenticatorViewModel
 {
-    [Required]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
     [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
     [DataType(DataType.Text)]
     [Display(Name = "Verification Code")]

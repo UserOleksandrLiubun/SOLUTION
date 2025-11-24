@@ -7,7 +7,7 @@ namespace CHOICE.Models.DTOs
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = SharedResource.RequireMessage)]
         [StringLength(200)]
         public string Title { get; set; }
 

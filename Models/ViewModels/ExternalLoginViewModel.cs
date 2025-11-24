@@ -1,8 +1,9 @@
+using CHOICE;
 using System.ComponentModel.DataAnnotations;
 
 public class ExternalLoginViewModel
 {
-    [Required]
-    [EmailAddress]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
+    [EmailAddress(ErrorMessage = SharedResource.EmailAddressErrorMessage)]
     public string Email { get; set; }
 }

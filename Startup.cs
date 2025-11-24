@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using CHOICE;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +57,24 @@ builder.Services.AddMvc(options => options.EnableEndpointRouting = false);
 // Add application services.
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+builder.Services.AddMvc()
+    .AddDataAnnotationsLocalization(options => {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(SharedResource));
+    });
+
 var app = builder.Build();
+
+// Configure supported cultures
+var supportedCultures = new[] { "uk-UA" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
+app.UseRequestLocalization(localizationOptions);
 
 // Middleware для заголовків безпеки
 app.Use(async (context, next) =>

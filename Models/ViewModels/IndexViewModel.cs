@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CHOICE;
+using System.ComponentModel.DataAnnotations;
 
 public class IndexViewModel
 {
@@ -6,8 +7,8 @@ public class IndexViewModel
 
     public bool IsEmailConfirmed { get; set; }
 
-    [Required]
-    [EmailAddress]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
+    [EmailAddress(ErrorMessage = SharedResource.EmailAddressErrorMessage)]
     public string Email { get; set; }
 
     [Phone]

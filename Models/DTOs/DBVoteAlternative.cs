@@ -7,7 +7,7 @@ namespace CHOICE.Models.DTOs
         [Key]
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = SharedResource.RequireMessage)]
         public int DBVoteId { get; set; }
         public string Title { get; set; }
     }

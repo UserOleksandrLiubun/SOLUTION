@@ -1,8 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using CHOICE;
+using System.ComponentModel.DataAnnotations;
 
 public class ForgotPasswordViewModel
 {
-    [Required]
-    [EmailAddress]
+    [Required(ErrorMessage = SharedResource.RequireMessage)]
+    [EmailAddress(ErrorMessage = SharedResource.EmailAddressErrorMessage)]
     public string Email { get; set; }
 }
