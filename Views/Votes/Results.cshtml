@@ -341,7 +341,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">@Model.DBVoteItem.Count()</h5>
-                        <p class="card-text">Всього голосів</p>
+                        <p class="card-text">Кількість оцінок</p>
                     </div>
                 </div>
             </div>
@@ -349,7 +349,7 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">@Model.DBVoteItem.Select(v => v.UserId).Distinct().Count()</h5>
-                        <p class="card-text">Унікальних користувачів</p>
+                        <p class="card-text">Кількість користувачів, які проголосували</p>
                     </div>
                 </div>
             </div>
