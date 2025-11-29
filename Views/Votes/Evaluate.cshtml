@@ -11,17 +11,44 @@
         <p class="lead">@Model.Description</p>
     </div>
 }
-<form asp-action="Evaluate">
+
+<form asp-action="Evaluate" id="evaluationForm">
     <input type="hidden" asp-for="VoteId" />
     <input type="hidden" asp-for="Description" />
     <input type="hidden" asp-for="IsPrivate" />
     <input type="hidden" asp-for="VoteTitle" />
+
+    <!-- Drag & Drop Block for Alternative Positioning -->
+    <div class="alternative-ordering mb-4">
+        <h4>Впорядкування альтернатив</h4>
+        <p class="text-muted">Перетягніть альтернативи для встановлення їх позиції у списку</p>
+
+        <div class="alternatives-list border p-3" id="alternativesContainer">
+            @foreach (var alternative in Model.Alternatives)
+            {
+                <div class="alternative-item draggable border p-2 mb-2 bg-light"
+                     data-alternative-id="@alternative.Id"
+                     style="cursor: grab; user-select: none;">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="alternative-title">@alternative.Title</span>
+                        <span class="badge badge-secondary handle">≡</span>
+                    </div>
+                    <input type="hidden" name="AlternativePositions[@alternative.Id]"
+                           class="order-input" value="@(Model.Alternatives.ToList().IndexOf(alternative) + 1)" />
+                </div>
+            }
+        </div>
+        <small class="form-text text-muted">
+            Позиція 1 - найвищий пріоритет, @Model.Alternatives.Count() - найнижчий
+        </small>
+    </div>
+
     @for (int i = 0; i < Model.Criteria.Count; i++)
     {
         var isNew = Model.Alternatives.Count() > 0 && alternativeId != Model.Criteria[i].DBVoteAlternativeId && Model.Criteria[i].DBVoteAlternativeId != null;
         alternativeId = isNew ? Model.Criteria[i].DBVoteAlternativeId : alternativeId;
         var alternative = isNew ? Model.Alternatives.Where((item) => item.Id == Model.Criteria[i].DBVoteAlternativeId).First() : null;
-        <h3> @(isNew ?  ("Альтернатива: " + @alternative?.Title) : "") </h3>
+        <h3> @(isNew ? ("Альтернатива: " + @alternative?.Title) : "") </h3>
         <div class="criteria-item border p-3 mb-3">
             <input type="hidden" asp-for="Criteria[i].SettingsId" />
             <input type="hidden" asp-for="Criteria[i].MinValue" />
@@ -51,3 +78,111 @@
         <a asp-action="Index" class="btn btn-secondary">Скасувати</a>
     </div>
 </form>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.getElementById('alternativesContainer');
+            let draggedItem = null;
+
+            // Initialize drag and drop
+            function initializeDragAndDrop() {
+                const items = container.querySelectorAll('.draggable');
+
+                items.forEach(item => {
+                    item.setAttribute('draggable', 'true');
+
+                    item.addEventListener('dragstart', function(e) {
+                        draggedItem = item;
+                        setTimeout(() => {
+                            item.classList.add('dragging');
+                        }, 0);
+                    });
+
+                    item.addEventListener('dragend', function() {
+                        draggedItem = null;
+                        item.classList.remove('dragging');
+                        updateOrder();
+                    });
+
+                    item.addEventListener('dragover', function(e) {
+                        e.preventDefault();
+                    });
+
+                    item.addEventListener('dragenter', function(e) {
+                        e.preventDefault();
+                        if (item !== draggedItem) {
+                            item.classList.add('drag-over');
+                        }
+                    });
+
+                    item.addEventListener('dragleave', function() {
+                        item.classList.remove('drag-over');
+                    });
+
+                    item.addEventListener('drop', function(e) {
+                        e.preventDefault();
+                        item.classList.remove('drag-over');
+
+                        if (item !== draggedItem) {
+                            const allItems = Array.from(container.querySelectorAll('.draggable'));
+                            const draggedIndex = allItems.indexOf(draggedItem);
+                            const targetIndex = allItems.indexOf(item);
+
+                            if (draggedIndex < targetIndex) {
+                                item.parentNode.insertBefore(draggedItem, item.nextSibling);
+                            } else {
+                                item.parentNode.insertBefore(draggedItem, item);
+                            }
+
+                            updateOrder();
+                        }
+                    });
+                });
+            }
+
+            // Update the order of alternatives
+            function updateOrder() {
+                const items = container.querySelectorAll('.draggable');
+
+                items.forEach((item, index) => {
+                    const position = index + 1;
+
+                    // Update hidden input for this alternative
+                    const orderInput = item.querySelector('.order-input');
+                    if (orderInput) {
+                        orderInput.value = position;
+                    }
+                });
+            }
+
+            // Initialize when page loads
+            initializeDragAndDrop();
+        });
+    </script>
+
+    <style>
+        .draggable.dragging {
+            opacity: 0.5;
+            background-color: #e9ecef;
+        }
+
+        .draggable.drag-over {
+            border: 2px dashed #007bff;
+            background-color: #f8f9fa;
+        }
+
+        .alternative-item {
+            transition: all 0.2s ease;
+        }
+
+        .handle {
+            cursor: grab;
+            font-size: 1.2em;
+        }
+
+        .draggable:active .handle {
+            cursor: grabbing;
+        }
+    </style>
+}
