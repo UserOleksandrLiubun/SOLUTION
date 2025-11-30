@@ -52,7 +52,7 @@
         {
             <h4>Альтернатива: @alternative?.Title </h4>
         }
-        <div class="criteria-item border p-3">
+        <div class="criteria-item border-bottom border-start border-end @(isNew ? "border-top" : "") p-3">
             <input type="hidden" asp-for="Criteria[i].SettingsId" />
             <input type="hidden" asp-for="Criteria[i].MinValue" />
             <input type="hidden" asp-for="Criteria[i].MaxValue" />
@@ -91,7 +91,7 @@
 
                                 for (int j = 0; j < buttonCount; j++)
                                 {
-                                    var value = minValue + (j * stepValue);
+                                    var value = Math.Round(minValue + (j * stepValue), 2).ToString().Replace(",", ".");
                                     <button type="button" class="btn btn-outline-info btn-sm mr-1 mb-1 quick-value-btn"
                                             data-index="@i" data-value="@value">
                                         @value
