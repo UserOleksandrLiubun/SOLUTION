@@ -162,9 +162,9 @@ public class VotesController : Controller
         model.Contacts = await GetContacts();
         double totalImportance = model.Criteria.Sum(c => c.Importance.GetValueOrDefault());
         ViewBag.WeightError = null;
-        if (totalImportance != 100 && totalImportance != model.Criteria.Count() * 100)
+        if (!model.Criteria.All(c => c.Importance == null) && totalImportance != model.Criteria.Count() * 100)
         {
-            ViewBag.WeightError = "Сума важливості всіх критеріїв має дорівнювати 100. Для критеріїв без визначеної важливості залишайте поле порожнім.";
+            ViewBag.WeightError = "Задайте важливість або для всіх критеріїв (із загальною сумою 100), або для жодного.";
             return View(model);
         }
         if (ModelState.IsValid)
