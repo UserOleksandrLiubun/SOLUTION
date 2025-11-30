@@ -4,7 +4,7 @@
     int alternativeId = -1;
 }
 
-<h2>@ViewData["Title"]</h2>
+<h1>@ViewData["Title"]</h1>
 @if (!string.IsNullOrEmpty(Model.Description))
 {
     <div class="vote-description mb-4">
@@ -48,7 +48,9 @@
         var isNew = Model.Alternatives.Count() > 0 && alternativeId != Model.Criteria[i].DBVoteAlternativeId && Model.Criteria[i].DBVoteAlternativeId != null;
         alternativeId = isNew ? Model.Criteria[i].DBVoteAlternativeId : alternativeId;
         var alternative = isNew ? Model.Alternatives.Where((item) => item.Id == Model.Criteria[i].DBVoteAlternativeId).First() : null;
-        <h3> @(isNew ? ("Альтернатива: " + @alternative?.Title) : "") </h3>
+        @if (isNew) {
+            <h4>Альтернатива: @alternative?.Title </h4>
+        }
         <div class="criteria-item border p-3 mb-3">
             <input type="hidden" asp-for="Criteria[i].SettingsId" />
             <input type="hidden" asp-for="Criteria[i].MinValue" />
