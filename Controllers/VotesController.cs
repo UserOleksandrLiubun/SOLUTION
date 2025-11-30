@@ -39,7 +39,7 @@ public class VoteCriteriaViewModel
 
     [Range(1, 100)]
     [Display(Name = "Важливість")]
-    public double Importance { get; set; } = 100;
+    public double? Importance { get; set; } = 100;
     [Display(Name = "Мінімальне значення")]
     public double MinValue { get; set; } = 0;
     [Display(Name = "Крок")]
@@ -71,7 +71,7 @@ public class EvaluationCriteriaViewModel
     public string Description { get; set; }
 
     [Range(0, 100)]
-    public double ImportanceValue { get; set; }
+    public double? ImportanceValue { get; set; }
 
     public double MinValue { get; set; }
     public double MaxValue { get; set; }
@@ -160,11 +160,11 @@ public class VotesController : Controller
     public async Task<IActionResult> Create(CreateVoteViewModel model)
     {
         model.Contacts = await GetContacts();
-        double totalImportance = model.Criteria.Sum(c => c.Importance);
+        double totalImportance = model.Criteria.Sum(c => c.Importance.GetValueOrDefault());
         ViewBag.WeightError = null;
         if (totalImportance != 100 && totalImportance != model.Criteria.Count() * 100)
         {
-            ViewBag.WeightError = "Призначте значення важливості критерію таким чином, щоб сума всіх критеріїв дорівнювала 100 або важливість кожного критерію дорівнювала 100.";
+            ViewBag.WeightError = "Сума важливості всіх критеріїв має дорівнювати 100%. Для критеріїв без визначеної важливості залишайте поле порожнім.";
             return View(model);
         }
         if (ModelState.IsValid)

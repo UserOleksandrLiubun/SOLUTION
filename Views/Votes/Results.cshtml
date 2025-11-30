@@ -73,7 +73,7 @@
                                         if (criterionSettings != null)
                                         {
                                             // Use the importance value from settings (default) or from user if overridden
-                                            double importance = vote.ImportanceValue > 0 ? vote.ImportanceValue : criterionSettings.ImportanceValue;
+                                            double importance = vote.ImportanceValue > 0 ? vote.ImportanceValue.GetValueOrDefault() : criterionSettings.ImportanceValue.GetValueOrDefault();
                                             double normalizedImportance = importance / 100.0; // Convert to 0-1 scale
 
                                             weightedSum += vote.Value * normalizedImportance;

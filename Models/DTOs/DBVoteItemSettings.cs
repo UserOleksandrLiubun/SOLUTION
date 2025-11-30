@@ -16,7 +16,7 @@ public class DBVoteItemSettings
 
     [Display(Name = "Важливість")]
     [Range(1, 100)]
-    public double ImportanceValue { get; set; } = 100;
+    public double? ImportanceValue { get; set; } = 100;
 
     [Display(Name = "Мінімальне значення")]
     public double MinValue { get; set; } = 0;
