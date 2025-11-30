@@ -317,7 +317,7 @@ public class VotesController : Controller
                     ImportanceValue = criteria.ImportanceValue,
                     Value = criteria.Value,
                     UserId = userId,
-                    AlternativePositions = string.Join(", ", model.AlternativePositions.OrderBy(x => x.Key).Select(x => $"{x.Value}"))
+                    AlternativePositions = string.Join(", ", model.AlternativePositions.OrderBy(x => x.Value).Select(x => $"{x.Key}"))
                 };
                 _context.DBVoteItems.Add(voteItem);
             }

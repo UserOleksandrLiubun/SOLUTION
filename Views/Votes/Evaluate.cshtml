@@ -34,7 +34,7 @@
                         <span class="text-dark badge badge-secondary handle">≡</span>
                     </div>
                     <input type="hidden" name="AlternativePositions[@alternative.Id]"
-                           class="order-input" value="@alternative.Id" />
+                           class="order-input" value="@(Model.Alternatives.ToList().IndexOf(alternative) + 1)" />
                 </div>
             }
         </div>
