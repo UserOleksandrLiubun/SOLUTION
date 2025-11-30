@@ -7,7 +7,7 @@
 <h1>@ViewData["Title"]</h1>
 @if (!string.IsNullOrEmpty(Model.Description))
 {
-    <div class="vote-description mb-4">
+    <div class="vote-description mb-3">
         <p class="lead">@Model.Description</p>
     </div>
 }
@@ -19,7 +19,7 @@
     <input type="hidden" asp-for="VoteTitle" />
 
     <!-- Drag & Drop Block for Alternative Positioning -->
-    <div class="alternative-ordering mb-4">
+    <div class="alternative-ordering mb-3">
         <h4>Впорядкування альтернатив</h4>
         <p class="text-muted">Перетягніть альтернативи для встановлення їх позиції у списку</p>
 
@@ -50,7 +50,7 @@
         var alternative = isNew ? Model.Alternatives.Where((item) => item.Id == Model.Criteria[i].DBVoteAlternativeId).First() : null;
         @if (isNew)
         {
-            <h4 class="border border-bottom-0 rounded-top p-2 mb-0 bg-light">Альтернатива: @alternative?.Title </h4>
+            <h4 class="@(i!=0 ? "mt-2" : "") border border-bottom-0 rounded-top p-2 mb-0 bg-light">Альтернатива: @alternative?.Title </h4>
         }
         <div class="criteria-item border-bottom border-start border-end @(isNew ? "border-top" : "") p-3">
             <input type="hidden" asp-for="Criteria[i].SettingsId" />
