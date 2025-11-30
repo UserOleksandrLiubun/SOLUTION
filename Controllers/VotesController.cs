@@ -314,7 +314,6 @@ public class VotesController : Controller
                     DBVoteAlternativeId = criteria.DBVoteAlternativeId,
                     DBVoteId = model.VoteId,
                     DBVoteItemSettingsId = criteria.SettingsId,
-                    ImportanceValue = criteria.ImportanceValue,
                     Value = criteria.Value,
                     UserId = userId,
                     AlternativePosition = model.AlternativePositions[criteria.DBVoteAlternativeId]

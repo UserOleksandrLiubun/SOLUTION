@@ -13,10 +13,6 @@ public class DBVoteItem
     [Required(ErrorMessage = SharedResource.RequireMessage)]
     public int DBVoteItemSettingsId { get; set; }
 
-    [Display(Name = "Importance")]
-    [Range(0, 100)]
-    public double? ImportanceValue { get; set; }
-
     [Display(Name = "Значення")]
     public double Value { get; set; }
 
