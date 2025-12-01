@@ -321,7 +321,10 @@ public class VotesController : Controller
             }
             else
             {
-                foreach (var criteria in model.Alternatives)
+                var alternative = _context.DBVoteAlternative
+                    .Where(s => s.DBVoteId == vote.Id)
+                    .ToList();
+                foreach (var criteria in alternative)
                 {
                     var voteItem = new DBVoteItem
                     {

@@ -452,7 +452,7 @@
                             </td>
                             <td>
                                 @{
-                                    var importanceValue = itemSetting.ImportanceValue != null ? itemSetting.ImportanceValue.ToString() : "-";
+                                    var importanceValue = itemSetting?.ImportanceValue != null ? itemSetting.ImportanceValue.ToString() : "-";
                                 }
                                 <span class="badge bg-info">@importanceValue</span>
                             </td>
