@@ -321,19 +321,19 @@ public class VotesController : Controller
             }
             else
             {
-                var alternative = _context.DBVoteAlternative
+                var alternatives = _context.DBVoteAlternative
                     .Where(s => s.DBVoteId == vote.Id)
                     .ToList();
-                foreach (var criteria in alternative)
+                foreach (var alternative in alternatives)
                 {
                     var voteItem = new DBVoteItem
                     {
-                        DBVoteAlternativeId = criteria.DBVoteId,
+                        DBVoteAlternativeId = alternative.Id,
                         DBVoteId = model.VoteId,
                         DBVoteItemSettingsId = null,
                         Value = null,
                         UserId = userId,
-                        AlternativePriority = model.AlternativePositions[criteria.DBVoteId]
+                        AlternativePriority = model.AlternativePositions[alternative.Id]
                     };
                     _context.DBVoteItems.Add(voteItem);
                 }
