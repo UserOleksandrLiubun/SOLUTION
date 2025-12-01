@@ -429,6 +429,8 @@
     </div>
 </div>
 
+@if(Model.DBVoteItemSettings.Count() > 0)
+{
 <!-- Alternative Votes Summary -->
 <div class="card mb-4">
     <div class="card-header">
@@ -524,7 +526,8 @@
         </div>
     </div>
 </div>
-        }
+            }
+}
     </div>
 </div>
 
