@@ -13,7 +13,4 @@ public class DBApplicationUser : IdentityUser
 
     [PersonalData]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
-    [PersonalData]
-    public DateTime? LastLogin { get; set; }
 }
