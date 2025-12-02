@@ -42,7 +42,8 @@
         </div>
         @if (Model.DBVoteAlternative.Any())
         {
-            <div class="card mb-4">
+            @if(Model.DBVoteItemSettings.Count() == 0){
+                <div class="card mb-4">
     <div class="card-header">
         <h4>Ранжування альтернатив за пріоритетом</h4>
     </div>
@@ -53,7 +54,6 @@
                     <tr>
                         <th>Місце</th>
                         <th>Альтернатива</th>
-                        <th>Кількість голосів</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,9 +80,6 @@
                             <tr>
                                 <td>@rank</td>
                                 <td>@item.Alternative.Title</td>
-                                <td>                                    
-                                    @item.VoteCount
-                                </td>
                             </tr>
                             rank++;
                         }
@@ -92,6 +89,9 @@
         </div>
     </div>
 </div>
+            }
+            else
+            {
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>Огляд альтернатив</h4>
@@ -154,6 +154,7 @@
                     </div>
                 </div>
             </div>
+            }
         }
 
         <!-- Detailed Results by Vote Item -->
@@ -277,7 +278,7 @@
                     }
                     <div class="row">
                         <div class="col-md-12">
-                            <strong>Загальна кількість учасників:</strong> @Model.UserIDs.Count()
+                            <strong>Загальна кількість учасників:</strong> @Model.UserIDs.Distinct().Count()
                         </div>
                         <div class="col-md-12">
                             <strong>Кількість учасників, які прийняли участь в опитуванні:</strong> @uniqueUsers
@@ -319,7 +320,7 @@
                                     </thead>
                                     <tbody>
                                         
-                                        @foreach (var id in Model.UserIDs)
+                                        @foreach (var id in Model.UserIDs.Distinct())
                                         {
                                             var u = UserManager.FindByIdAsync(id).Result;
                                             <tr>
@@ -336,21 +337,24 @@
                 </div>
             </div>
             <!-- All Votes Table -->
-<div class="card mb-4">
+            <div class="card mb-4">
     <div class="card-header">
         <h4>Усі голоси</h4>
     </div>
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-striped table-bordered">
+                            @{
+                                var isRanking = Model.DBVoteItemSettings.Count() > 0;
+                            }
                 <thead class="table-dark">
                     <tr>
                         <th>Користувач</th>
                         <th>Альтернатива</th>
-                        <th>Критерій</th>
-                        <th>Оцінка</th>
-                        <th>Важливість</th>
-                        <th>Приорітет альтернативи</th>
+                        <th @(!isRanking ? "hidden":"")>Критерій</th>
+                        <th @(!isRanking ? "hidden":"")>Оцінка</th>
+                        <th @(!isRanking ? "hidden":"")>Важливість</th>
+                        <th @(isRanking ? "hidden":"")>Приорітет альтернативи</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -372,17 +376,17 @@
                                 }
                             </td>
                             <td>@(alternative?.Title ?? "Невідома альтернатива")</td>
-                            <td>@(itemSetting?.Title ?? "Невідомий критерій")</td>
-                            <td>
+                            <td @(!isRanking ? "hidden":"")>@(itemSetting?.Title ?? "Невідомий критерій")</td>
+                            <td @(!isRanking ? "hidden":"")>
                                 <span class="badge bg-primary">@vote.Value.GetValueOrDefault().ToString("F1")</span>
                             </td>
-                            <td>
+                            <td @(!isRanking ? "hidden":"")>
                                 @{
                                     var importanceValue = itemSetting?.ImportanceValue != null ? itemSetting.ImportanceValue.ToString() : "-";
                                 }
                                 <span class="badge bg-info">@importanceValue</span>
                             </td>
-                            <td>
+                                        <td @(Model.DBVoteItemSettings.Count() > 0 ? "hidden" : "")>
                                 @(vote?.AlternativePriority != null ? vote?.AlternativePriority : "")
                             </td>
                         </tr>

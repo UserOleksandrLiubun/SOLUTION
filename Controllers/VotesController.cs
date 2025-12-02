@@ -313,8 +313,7 @@ public class VotesController : Controller
                         DBVoteId = model.VoteId,
                         DBVoteItemSettingsId = criteria.SettingsId,
                         Value = criteria.Value,
-                        UserId = userId,
-                        AlternativePriority = model.AlternativePositions[criteria.DBVoteAlternativeId]
+                        UserId = userId
                     };
                     _context.DBVoteItems.Add(voteItem);
                 }
