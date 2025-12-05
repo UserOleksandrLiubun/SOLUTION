@@ -1,21 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-public class TaskAccessViewModel
-{
-    public int TaskId { get; set; }
-    public string TaskName { get; set; }
-    public string OwnerUserId { get; set; }
-    public List<UserAccessInfo> CurrentAccessUsers { get; set; } = new List<UserAccessInfo>();
-    public List<UserAccessInfo> AvailableContacts { get; set; } = new List<UserAccessInfo>();
-    public string SelectedUserId { get; set; }
-}
 
-public class UserAccessInfo
-{
-    public string UserId { get; set; }
-    public string DisplayName { get; set; }
-}
 public class TaskAccessController : Controller
 {
     private readonly ApplicationDbContext _context;

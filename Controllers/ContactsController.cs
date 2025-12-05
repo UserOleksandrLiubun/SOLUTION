@@ -2,11 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-public class UserSearchViewModel
-{
-    public string SearchTerm { get; set; }
-    public List<DBApplicationUser> Users { get; set; } = new List<DBApplicationUser>();
-}
 [Authorize]
 public class ContactsController : Controller
 {
