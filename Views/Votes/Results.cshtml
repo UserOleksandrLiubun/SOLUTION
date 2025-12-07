@@ -134,7 +134,7 @@
                                     <li>Кількість голосів: @itemVotes.Count</li>
                                 </ul>
                             </div>
-                            @if (itemSetting.ImportanceValue != 100) 
+                            @if (itemSetting.ImportanceValue != null) 
                             {
                                 <div class="col-md-6">
                                     <strong>Важливість:</strong> @itemSetting.ImportanceValue
