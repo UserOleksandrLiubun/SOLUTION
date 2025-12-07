@@ -63,7 +63,7 @@
                                 // Calculate weighted average score considering importance
                                 double weightedSum = 0;
                                 double totalWeight = 0;
-                                double maxScore = 100;
+                                double maxScore = 3;
 
                                 foreach (var vote in alternativeVotes)
                                 {
@@ -93,7 +93,7 @@
                                                  style="width: @Math.Ceiling(percentageWidth)%"
                                                  aria-valuenow="@weightedAverageScore"
                                                  aria-valuemin="0"
-                                                 aria-valuemax="maxScore">
+                                                 aria-valuemax="@maxScore">
                                                 @weightedAverageScore.ToString("F2")
                                             </div>
                                         </div>
