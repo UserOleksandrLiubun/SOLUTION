@@ -63,6 +63,7 @@
                                 // Calculate weighted average score considering importance
                                 double weightedSum = 0;
                                 double totalWeight = 0;
+                                double maxScore = 0;
 
                                 foreach (var vote in alternativeVotes)
                                 {
@@ -81,12 +82,15 @@
 
                                 var weightedAverageScore = totalWeight > 0 ? weightedSum / totalWeight : 0;
 
+                                // Calculate percentage for progress bar
+                                var percentageWidth = maxScore > 0 ? (weightedAverageScore / maxScore) * 100 : 0;
+
                                 <tr>
                                     <td>@alternative.Title</td>
                                     <td>
                                         <div class="progress">
                                             <div class="progress-bar" role="progressbar"
-                                                 style="width: @Math.Ceiling((weightedAverageScore * 10))%"
+                                                 style="width: @Math.Ceiling(percentageWidth)%"
                                                  aria-valuenow="@weightedAverageScore"
                                                  aria-valuemin="0"
                                                  aria-valuemax="10">

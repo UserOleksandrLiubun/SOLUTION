@@ -18,6 +18,7 @@ public class CreateVoteViewModel
     [Display(Name = "Дата завершення")]
     public DateTime EndDateTime { get; set; } = DateTime.Now.AddDays(7);
 
+    [Required]
     [Display(Name = "Учасники")]
     public List<string> UsersIDs { get; set; }
     public List<string> Alternatives { get; set; } = new();
