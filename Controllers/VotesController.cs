@@ -328,7 +328,7 @@ public class VotesController : Controller
             userVotes = votes.GroupBy(v => v.UserId);
             for (int i = 0; i < votes.Count(); ++i)
             {
-                votes[i].DBVoteItemSettingsId = votes[i].DBVoteAlternativeId;
+                votes[i].DBVoteItemSettingsId = vote.Id;
             }
         }
         var result = new VoteResultViewModel()
