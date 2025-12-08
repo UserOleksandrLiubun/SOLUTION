@@ -348,7 +348,6 @@ public class VotesController : Controller
         return View(result);
     }
 
-    // POST: Contacts/Delete
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Delete(int id)
@@ -363,7 +362,7 @@ public class VotesController : Controller
         _context.DBVotes.RemoveRange(votes);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Vote removed successfully!";
+        TempData["Success"] = "Голосування успішно видалено!";
         return RedirectToAction("Index");
     }
 }
