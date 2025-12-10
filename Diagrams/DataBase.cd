@@ -8,49 +8,49 @@
     </TypeIdentifier>
   </Class>
   <Class Name="DBApplicationUser">
-    <Position X="0.5" Y="0.5" Width="2.75" />
+    <Position X="0.75" Y="0.5" Width="2.75" />
     <TypeIdentifier>
-      <HashCode>AAAAAEAAAAACAAAAACAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <HashCode>AAAAAEAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
       <FileName>Models\DTOs\DBApplicationUser.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBContact">
-    <Position X="8.5" Y="0.5" Width="2.5" />
+    <Position X="8.25" Y="0.5" Width="2.5" />
     <TypeIdentifier>
       <HashCode>AAACAAkAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBContact.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBTask">
-    <Position X="6.25" Y="3.75" Width="3.5" />
+    <Position X="8.25" Y="2.5" Width="3.5" />
     <TypeIdentifier>
       <HashCode>AAACCAAAAAAgACIAAAAAAAwAEAAAABAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBTask.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBVote">
-    <Position X="0.5" Y="7" Width="3.25" />
+    <Position X="0.75" Y="4.75" Width="3.25" />
     <TypeIdentifier>
       <HashCode>AAAKAAAAQAAgEEAAAAAAAAgAEAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBVote.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBVoteAlternative">
-    <Position X="3.75" Y="3.75" Width="2" />
+    <Position X="4.75" Y="3.5" Width="2" />
     <TypeIdentifier>
       <HashCode>AAACAAAAAAAAAEAAAAAAAAAAAABAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBVoteAlternative.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBVoteItem">
-    <Position X="0.5" Y="3.75" Width="2.75" />
+    <Position X="0.75" Y="2.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>IAACAAABAAAAAACAAAAAAAgAAABAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBVoteItem.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DBVoteItemSettings">
-    <Position X="4.25" Y="7" Width="3" />
+    <Position X="4.25" Y="5.25" Width="3" />
     <TypeIdentifier>
       <HashCode>AAACAAQAAAAgAEgAAAAAAAAAABBAAAAAAAAgAAAAAAA=</HashCode>
       <FileName>Models\DTOs\DBVoteItemSettings.cs</FileName>
