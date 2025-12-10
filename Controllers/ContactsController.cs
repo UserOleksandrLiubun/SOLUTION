@@ -129,7 +129,7 @@ public class ContactsController : Controller
         _context.Contacts.RemoveRange(contacts);
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Contact removed successfully!";
+        TempData["Success"] = "Контакт успішно видалено!";
         return RedirectToAction("Index");
     }
 
@@ -162,7 +162,7 @@ public class ContactsController : Controller
         contact.IsAccepted = true;
         await _context.SaveChangesAsync();
 
-        TempData["Success"] = "Contact request accepted!";
+        TempData["Success"] = "Контакт додано!";
         return RedirectToAction("Index");
     }
 
