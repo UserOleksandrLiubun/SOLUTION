@@ -128,54 +128,7 @@
     </div>
     <h4>Критерії оцінювання</h4>
     <div id="criteria-container">
-        @for (int i = 0; i < Model.Criteria.Count; i++)
-        {
-            <div class="criteria-item border p-3 mb-3">
-                <h5>Критерій @(i + 1)</h5>
-                <div class="form-group">
-                    <label asp-for="Criteria[i].Title" class="control-label"></label>
-                    <input asp-for="Criteria[i].Title" class="form-control" />
-                    <span asp-validation-for="Criteria[i].Title" class="text-danger"></span>
-                </div>
 
-                <div class="form-group">
-                    <label asp-for="Criteria[i].Description" class="control-label"></label>
-                    <textarea asp-for="Criteria[i].Description" class="form-control"></textarea>
-                    <span asp-validation-for="Criteria[i].Description" class="text-danger"></span>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="Criteria[i].Importance" class="control-label"></label>
-                            <input asp-for="Criteria[i].Importance" class="form-control" />
-                            <span asp-validation-for="Criteria[i].Importance" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="Criteria[i].MinValue" class="control-label"></label>
-                            <input asp-for="Criteria[i].MinValue" class="form-control" />
-                            <span asp-validation-for="Criteria[i].MinValue" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="Criteria[i].MaxValue" class="control-label"></label>
-                            <input asp-for="Criteria[i].MaxValue" class="form-control" />
-                            <span asp-validation-for="Criteria[i].MaxValue" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label asp-for="Criteria[i].StepValue" class="control-label"></label>
-                            <input asp-for="Criteria[i].StepValue" class="form-control" />
-                            <span asp-validation-for="Criteria[i].StepValue" class="text-danger"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
     </div>
 
     <div class="form-group">
