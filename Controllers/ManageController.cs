@@ -162,7 +162,7 @@ public class ManageController : Controller
 
         await _signInManager.SignInAsync(user, isPersistent: false);
         _logger.LogInformation("User changed their password successfully.");
-        StatusMessage = "Your password has been changed.";
+        StatusMessage = "Ваш пароль змінено.";
 
         return RedirectToAction(nameof(ChangePassword));
     }
